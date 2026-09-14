@@ -6,13 +6,14 @@
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="googlebot" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
-<title>Fabi Eurotrip</title>
+<title>Fabiana Eurotrip</title>
 <style>
   :root{
     --negro:#000; --hueso:#fff; --ceniza:#b0b0b0; --plata:#e8e8e8;
     --morado:#a970ff; --filete:rgba(255,255,255,.42);
     --serif:"Didot","Bodoni MT","Playfair Display",Georgia,"Times New Roman",serif;
     --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --h-marco:clamp(300px,58vh,600px);
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -117,12 +118,13 @@
   .lugar-tit h3{font-family:var(--serif);font-weight:400;font-size:clamp(24px,4vw,36px);color:#fff;margin:11px 0 0}
   .lugar-tit p{margin:14px 0 0;font-size:14.5px;line-height:1.7;color:#c4c4c4}
 
+  .pista{position:relative}
   .carrusel{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;
             scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth}
   .carrusel::-webkit-scrollbar{display:none}
-  .slide{flex:0 0 100%;scroll-snap-align:center;padding:0 24px}
-  .slide .marco{background:#070707;border:1px solid rgba(255,255,255,.1);cursor:zoom-in;
-                display:flex;align-items:center;justify-content:center;height:clamp(300px,58vh,600px);
+  .slide{flex:0 0 100%;width:100%;margin:0;scroll-snap-align:center;padding:0 24px}
+  .slide .marco{position:relative;background:#070707;border:1px solid rgba(255,255,255,.1);cursor:zoom-in;
+                display:flex;align-items:center;justify-content:center;height:var(--h-marco);
                 overflow:hidden}
   .slide img{max-width:100%;max-height:100%;object-fit:contain;
              filter:grayscale(1) contrast(1.18) brightness(.9);transition:filter .8s ease}
@@ -133,19 +135,27 @@
   .slide .sa{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--morado);margin-top:8px}
   .slide .sx{font-size:14.5px;line-height:1.72;color:#c9c9c9;margin:13px 0 0}
 
-  .controles{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:26px}
-  .controles button{background:none;border:1px solid rgba(255,255,255,.34);color:var(--hueso);
-                    width:44px;height:44px;cursor:pointer;font-size:17px;line-height:1;
-                    transition:border-color .3s,background .3s;display:flex;align-items:center;justify-content:center}
-  .controles button:hover{border-color:#fff;background:rgba(255,255,255,.09)}
-  .controles button[disabled]{opacity:.25;cursor:default}
-  .controles .cuenta{font-size:11.5px;letter-spacing:.22em;color:#aaa;min-width:64px;text-align:center;
-                     font-variant-numeric:tabular-nums}
-  .fin-grupo{text-align:center;margin-top:22px}
-  .fin-grupo button{background:none;border:0;color:#8f8f8f;font-family:var(--sans);font-size:10px;
-                    letter-spacing:.26em;text-transform:uppercase;cursor:pointer;padding:10px 4px;
-                    border-bottom:1px solid rgba(255,255,255,.2);transition:color .3s,border-color .3s}
-  .fin-grupo button:hover{color:#fff;border-bottom-color:#fff}
+  /* flechas encima de la foto */
+  .flecha{position:absolute;top:0;height:var(--h-marco);width:clamp(46px,7vw,70px);
+          z-index:4;border:0;cursor:pointer;color:#fff;font-size:26px;line-height:1;
+          display:flex;align-items:center;justify-content:center;
+          transition:opacity .3s,background .3s;padding:0}
+  .flecha.ant{left:24px;background:linear-gradient(to right,rgba(0,0,0,.75),rgba(0,0,0,0))}
+  .flecha.sig{right:24px;background:linear-gradient(to left,rgba(0,0,0,.75),rgba(0,0,0,0))}
+  .flecha span{display:flex;align-items:center;justify-content:center;width:38px;height:38px;
+               border:1px solid rgba(255,255,255,.5);background:rgba(0,0,0,.45);
+               backdrop-filter:blur(2px);transition:border-color .3s,background .3s}
+  .flecha:hover span{border-color:#fff;background:rgba(0,0,0,.75)}
+  .flecha[disabled]{opacity:0;pointer-events:none}
+  .cuenta{position:absolute;right:34px;z-index:4;top:calc(var(--h-marco) - 38px);
+          font-size:10.5px;letter-spacing:.2em;color:#e6e6e6;font-variant-numeric:tabular-nums;
+          background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.28);padding:5px 11px;
+          pointer-events:none}
+  .pista-pie{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:20px}
+  .punto{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.24);
+         border:0;padding:0;cursor:pointer;transition:background .3s,transform .3s}
+  .punto.on{background:var(--morado);transform:scale(1.55)}
+  .puntos-mas{font-size:10px;letter-spacing:.2em;color:#7d7d7d}
 
   /* ---------- escenas (solo ella) ---------- */
   .escena{margin:86px 0;position:relative}
@@ -202,6 +212,49 @@
                  font-size:clamp(34px,7vw,64px);color:var(--plata);line-height:1.1}
 
   /* ---------- lightbox ---------- */
+  /* ---------- visor a pantalla completa ---------- */
+  #visor{position:fixed;inset:0;z-index:90;background:#000;display:flex;flex-direction:column;
+         opacity:0;pointer-events:none;transition:opacity .35s ease}
+  #visor.on{opacity:1;pointer-events:auto}
+  #visor .v-top{display:flex;align-items:center;justify-content:space-between;
+                padding:14px 20px;flex:0 0 auto;border-bottom:1px solid rgba(255,255,255,.1)}
+  #visor .v-pos{font-size:10.5px;letter-spacing:.24em;color:#cfcfcf;font-variant-numeric:tabular-nums}
+  #visor .v-pos b{color:#fff;font-weight:400}
+  #visor .v-cerrar{background:none;border:1px solid rgba(255,255,255,.3);color:#ddd;cursor:pointer;
+                   font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;padding:8px 13px;
+                   font-family:var(--sans);transition:border-color .3s,color .3s}
+  #visor .v-cerrar:hover{border-color:#fff;color:#fff}
+  #visor .v-escena{position:relative;flex:1 1 auto;min-height:0;display:flex;
+                   align-items:center;justify-content:center;padding:10px 0}
+  #visor .v-escena img{max-width:min(96vw,1400px);max-height:100%;object-fit:contain}
+  #visor .v-nav{position:absolute;top:0;bottom:0;width:clamp(58px,10vw,110px);border:0;cursor:pointer;
+                color:#fff;display:flex;align-items:center;justify-content:center;padding:0;
+                background:none;transition:opacity .3s}
+  #visor .v-nav.ant{left:0;justify-content:flex-start;padding-left:14px}
+  #visor .v-nav.sig{right:0;justify-content:flex-end;padding-right:14px}
+  #visor .v-nav span{display:flex;align-items:center;justify-content:center;width:44px;height:44px;
+                     border:1px solid rgba(255,255,255,.45);background:rgba(0,0,0,.5);font-size:24px;
+                     transition:border-color .3s,background .3s}
+  #visor .v-nav:hover span{border-color:#fff;background:rgba(255,255,255,.12)}
+  #visor .v-nav[disabled]{opacity:0;pointer-events:none}
+  #visor .v-pie{flex:0 0 auto;padding:16px 22px 22px;text-align:center;
+                border-top:1px solid rgba(255,255,255,.1)}
+  #visor .v-tit{font-family:var(--serif);font-size:clamp(18px,2.5vw,24px);color:#fff;margin:0}
+  #visor .v-fecha{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--morado);margin-top:7px}
+  #visor .v-txt{font-size:13.5px;line-height:1.68;color:#c4c4c4;margin:11px auto 0;max-width:62ch}
+  #visor .v-fin{margin:16px 0 0}
+  #visor .v-fin p{margin:0 0 11px;font-size:12px;letter-spacing:.05em;color:#9a9a9a;font-style:italic;
+                  font-family:var(--serif)}
+  #visor .v-fin button{background:none;border:0;color:#dcdcdc;font-family:var(--sans);font-size:10px;
+                       letter-spacing:.26em;text-transform:uppercase;cursor:pointer;padding:9px 4px;
+                       border-bottom:1px solid rgba(255,255,255,.35);transition:color .3s,border-color .3s}
+  #visor .v-fin button:hover{color:#fff;border-bottom-color:#fff}
+  @media (max-width:760px){
+    #visor .v-nav{width:clamp(48px,16vw,80px)}
+    #visor .v-txt{font-size:13px}
+    #visor .v-pie{padding:13px 16px 18px}
+  }
+
   #lb{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.97);display:flex;align-items:center;
       justify-content:center;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .35s;
       padding:34px 20px;cursor:zoom-out}
@@ -219,7 +272,9 @@
     .duo figcaption{text-align:center;margin:0 auto;max-width:100%}
     .escena{margin:66px 0}
     .slide{padding:0 16px}
-    .slide .marco{height:clamp(260px,46vh,420px)}
+    :root{--h-marco:clamp(260px,46vh,420px)}
+    .flecha.ant{left:16px} .flecha.sig{right:16px}
+    .cuenta{right:24px}
   }
 </style>
 </head>
@@ -260,6 +315,27 @@
 </section>
 
 <div id="lb"><span class="cerrar">Cerrar</span><img alt=""><div class="txt"></div></div>
+
+<div id="visor" aria-hidden="true">
+  <div class="v-top">
+    <span class="v-pos"></span>
+    <button class="v-cerrar" type="button">Cerrar</button>
+  </div>
+  <div class="v-escena">
+    <img alt="">
+    <button class="v-nav ant" type="button" aria-label="Anterior"><span>&#8249;</span></button>
+    <button class="v-nav sig" type="button" aria-label="Siguiente"><span>&#8250;</span></button>
+  </div>
+  <div class="v-pie">
+    <p class="v-tit"></p>
+    <div class="v-fecha"></div>
+    <p class="v-txt"></p>
+    <div class="v-fin" hidden>
+      <p></p>
+      <button type="button">Volver al recorrido</button>
+    </div>
+  </div>
+</div>
 
 <script src="mapas.js"></script>
 <script src="datos.js"></script>
@@ -385,23 +461,23 @@ const pintaLugar = (b) => `
       <h3>${esc(b.titulo)}</h3>
       ${b.intro ? `<p>${esc(b.intro)}</p>` : ''}
     </div>
-    <div class="carrusel">
-      ${b.fotos.map(f => `
-        <figure class="slide" data-info="${esc(f.texto||'')}">
-          <div class="marco"><img src="${F(f.foto)}" alt="${esc(f.titulo)}" loading="lazy"></div>
-          <figcaption>
-            <p class="st">${esc(f.titulo)}</p>
-            ${f.autor ? `<div class="sa">${esc(f.autor)}</div>` : ''}
-            ${f.texto ? `<p class="sx">${esc(f.texto)}</p>` : ''}
-          </figcaption>
-        </figure>`).join('')}
-    </div>
-    <div class="controles">
-      <button class="ant" aria-label="Anterior">&#8592;</button>
+    <div class="pista">
+      <div class="carrusel">${b.fotos.map((f,i) =>
+        `<figure class="slide" data-i="${i}" data-info="${esc(f.texto||'')}">`
+        + `<div class="marco"><img src="${F(f.foto)}" alt="${esc(f.titulo)}"${i<2?'':' loading="lazy"'}></div>`
+        + `<figcaption><p class="st">${esc(f.titulo)}</p>`
+        + (f.autor ? `<div class="sa">${esc(f.autor)}</div>` : '')
+        + (f.texto ? `<p class="sx">${esc(f.texto)}</p>` : '')
+        + `</figcaption></figure>`).join('')}</div>
+      <button class="flecha ant" type="button" aria-label="Anterior"><span>&#8249;</span></button>
+      <button class="flecha sig" type="button" aria-label="Siguiente"><span>&#8250;</span></button>
       <span class="cuenta">1 / ${b.fotos.length}</span>
-      <button class="sig" aria-label="Siguiente">&#8594;</button>
     </div>
-    <div class="fin-grupo" hidden><button>Volver al recorrido</button></div>
+    <div class="pista-pie">
+      ${b.fotos.length <= 14
+        ? b.fotos.map((f,i) => `<button class="punto${i===0?' on':''}" type="button" data-i="${i}" aria-label="Foto ${i+1}"></button>`).join('')
+        : `<span class="puntos-mas">${b.fotos.length} FOTOS</span>`}
+    </div>
   </section>`;
 
 const pintaCapitulo = (b) => `
@@ -448,35 +524,133 @@ document.getElementById('menu').innerHTML =
   `<a class="marca" href="#arriba">${esc(CABECERA.nombre)}</a>` +
   secciones.map(([id,t]) => `<a href="#${id}" data-s="${id}">${esc(t)}</a>`).join('');
 
-/* ---------- carruseles ---------- */
+/* ---------- grupos: carrusel con índice propio ---------- */
+const GRUPOS = [];
+
 document.querySelectorAll('.lugar').forEach(sec => {
-  const car = sec.querySelector('.carrusel');
-  const ant = sec.querySelector('.ant'), sig = sec.querySelector('.sig');
-  const cuenta = sec.querySelector('.cuenta'), fin = sec.querySelector('.fin-grupo');
-  const n = car.children.length;
-  const idx = () => Math.round(car.scrollLeft / car.clientWidth);
+  const car    = sec.querySelector('.carrusel');
+  const slides = [...car.querySelectorAll('.slide')];
+  const ant    = sec.querySelector('.flecha.ant'), sig = sec.querySelector('.flecha.sig');
+  const cuenta = sec.querySelector('.cuenta');
+  const puntos = [...sec.querySelectorAll('.punto')];
+  const n = slides.length;
+  const datos = slides.map(s => ({
+    src:    s.querySelector('img').getAttribute('src'),
+    titulo: s.querySelector('.st').textContent,
+    fecha:  (s.querySelector('.sa') || {}).textContent || '',
+    texto:  (s.querySelector('.sx') || {}).textContent || ''
+  }));
+  const grupo = { sec, titulo: sec.querySelector('h3').textContent, datos, n, ir: null, i: 0 };
+  GRUPOS.push(grupo);
+  sec.dataset.g = GRUPOS.length - 1;
+
+  let i = 0;                       // el índice lo mandamos nosotros, no el scroll
   const pinta = () => {
-    const i = Math.min(n-1, Math.max(0, idx()));
-    cuenta.textContent = (i+1) + ' / ' + n;
+    grupo.i = i;
+    cuenta.textContent = (i + 1) + ' / ' + n;
     ant.disabled = i === 0;
-    sig.disabled = i === n-1;
-    fin.hidden = i !== n-1;
-    [...car.children].forEach((s,j) => s.classList.toggle('enfoque', j === i));
+    sig.disabled = i === n - 1;
+    slides.forEach((s, j) => s.classList.toggle('enfoque', j === i));
+    puntos.forEach((p, j) => p.classList.toggle('on', j === i));
+    // carga anticipada del vecino
+    const v = slides[i + 1] && slides[i + 1].querySelector('img');
+    if (v) v.removeAttribute('loading');
   };
-  const ir = d => { car.scrollTo({ left: (idx()+d) * car.clientWidth, behavior:'smooth' }); };
-  ant.onclick = () => ir(-1);
-  sig.onclick = () => ir(1);
-  let t; car.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(pinta, 90); }, {passive:true});
-  fin.querySelector('button').onclick = () => {
-    car.scrollTo({left:0, behavior:'smooth'});
-    sec.scrollIntoView({behavior:'smooth', block:'start'});
+  const ir = (k, suave) => {
+    i = Math.max(0, Math.min(n - 1, k));
+    // posición exacta, medida en pantalla: inmune a bordes, gaps y redondeos
+    const x = car.scrollLeft
+            + slides[i].getBoundingClientRect().left
+            - car.getBoundingClientRect().left;
+    car.scrollTo({ left: x, behavior: suave === false ? 'auto' : 'smooth' });
+    pinta();
   };
-  sec.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight') ir(1);
-    if (e.key === 'ArrowLeft')  ir(-1);
-  });
+  grupo.ir = ir;
+
+  ant.addEventListener('click', () => ir(i - 1));
+  sig.addEventListener('click', () => ir(i + 1));
+  puntos.forEach(p => p.addEventListener('click', () => ir(+p.dataset.i)));
+
+  // si el usuario arrastra con el dedo, recuperamos el índice al terminar
+  let t;
+  car.addEventListener('scroll', () => {
+    clearTimeout(t);
+    t = setTimeout(() => {
+      const w = slides[0].getBoundingClientRect().width || 1;
+      const k = Math.max(0, Math.min(n - 1, Math.round(car.scrollLeft / w)));
+      if (k !== i) { i = k; pinta(); }
+    }, 110);
+  }, { passive: true });
+
+  addEventListener('resize', () => ir(i, false));
   pinta();
 });
+
+/* ---------- visor a pantalla completa ---------- */
+const vs   = document.getElementById('visor');
+const vImg = vs.querySelector('img'),      vPos = vs.querySelector('.v-pos');
+const vTit = vs.querySelector('.v-tit'),   vFec = vs.querySelector('.v-fecha');
+const vTxt = vs.querySelector('.v-txt'),   vFin = vs.querySelector('.v-fin');
+const vAnt = vs.querySelector('.v-nav.ant'), vSig = vs.querySelector('.v-nav.sig');
+let vG = null, vI = 0, vAbierto = false;
+
+const vPinta = () => {
+  const d = vG.datos[vI];
+  vImg.src = d.src;
+  vImg.alt = d.titulo;
+  vPos.innerHTML = '<b>' + (vI + 1) + '</b> / ' + vG.n + ' &nbsp;·&nbsp; ' + esc(vG.titulo);
+  vTit.textContent = d.titulo;
+  vFec.textContent = d.fecha;
+  vFec.hidden = !d.fecha;
+  vTxt.textContent = d.texto;
+  vAnt.disabled = vI === 0;
+  vSig.disabled = vI === vG.n - 1;
+  const ultima = vI === vG.n - 1;
+  vFin.hidden = !ultima;
+  if (ultima) vFin.querySelector('p').textContent = 'Hasta aquí ' + vG.titulo.toLowerCase() + '.';
+};
+const vIr = k => { vI = Math.max(0, Math.min(vG.n - 1, k)); vPinta(); };
+
+const vAbrir = (g, i) => {
+  vG = g; vI = i; vPinta();
+  vs.classList.add('on');
+  vs.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  if (!vAbierto) { vAbierto = true; history.pushState({ visor:true }, ''); }
+};
+const vCerrar = (volver) => {
+  if (!vAbierto) return;
+  vs.classList.remove('on');
+  vs.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  vAbierto = false;
+  if (vG) vG.ir(vI, false);                 // el recorrido queda donde lo dejaste
+  if (volver && history.state && history.state.visor) history.back();
+};
+const vVolver = () => {
+  const sec = vG.sec;
+  vCerrar(true);
+  setTimeout(() => sec.scrollIntoView({ behavior:'smooth', block:'start' }), 60);
+};
+
+vAnt.addEventListener('click', () => vIr(vI - 1));
+vSig.addEventListener('click', () => vIr(vI + 1));
+vs.querySelector('.v-cerrar').addEventListener('click', () => vCerrar(true));
+vFin.querySelector('button').addEventListener('click', vVolver);
+addEventListener('keydown', e => {
+  if (!vAbierto) return;
+  if (e.key === 'ArrowRight') vIr(vI + 1);
+  if (e.key === 'ArrowLeft')  vIr(vI - 1);
+  if (e.key === 'Escape')     vCerrar(true);
+});
+/* deslizar con el dedo dentro del visor */
+let vx = null;
+vs.querySelector('.v-escena').addEventListener('touchstart', e => { vx = e.touches[0].clientX; }, {passive:true});
+vs.querySelector('.v-escena').addEventListener('touchend', e => {
+  if (vx === null) return;
+  const d = e.changedTouches[0].clientX - vx; vx = null;
+  if (Math.abs(d) > 45) vIr(vI + (d < 0 ? 1 : -1));
+}, {passive:true});
 
 /* ---------- animaciones ---------- */
 const contar = (el) => {
@@ -553,16 +727,21 @@ const cerrarLb = (volver) => {
   lbAbierto = false;
   if (volver && history.state && history.state.lb) history.back();
 };
-addEventListener('popstate', () => { if (lbAbierto) cerrarLb(false); });
+addEventListener('popstate', () => {
+  if (vAbierto) { vCerrar(false); return; }
+  if (lbAbierto) cerrarLb(false);
+});
 lb.addEventListener('click', () => cerrarLb(true));
 addEventListener('keydown', e => { if (e.key === 'Escape') cerrarLb(true); });
 
 document.querySelectorAll('.escena').forEach(f =>
   f.querySelector('.lienzo').addEventListener('click',
     () => abrir(f, f.querySelector('h3').textContent)));
-document.querySelectorAll('.slide').forEach(f =>
-  f.querySelector('.marco').addEventListener('click',
-    () => abrir(f, f.querySelector('.st').textContent)));
+document.querySelectorAll('.lugar').forEach(sec => {
+  const g = GRUPOS[+sec.dataset.g];
+  sec.querySelectorAll('.slide').forEach(s =>
+    s.querySelector('.marco').addEventListener('click', () => vAbrir(g, +s.dataset.i)));
+});
 
 /* ---------- en táctil, la foto centrada toma color ---------- */
 if (matchMedia('(hover:none)').matches) {
