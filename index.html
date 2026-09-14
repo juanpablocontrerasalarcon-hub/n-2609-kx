@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Fabi Eurotrip</title>
+<style>
+  :root{
+    --negro:#000; --hueso:#fff; --ceniza:#b0b0b0; --plata:#e8e8e8;
+    --morado:#a970ff; --filete:rgba(255,255,255,.42);
+    --serif:"Didot","Bodoni MT","Playfair Display",Georgia,"Times New Roman",serif;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--negro);color:var(--hueso);font-family:var(--sans);
+       -webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .ojo{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--ceniza);margin:0}
+  .rombo{display:block;width:5px;height:5px;margin:0 auto;background:var(--plata);transform:rotate(45deg)}
+
+  #barra{position:fixed;top:0;left:0;height:2px;width:0;z-index:60;
+         background:linear-gradient(90deg,var(--morado),var(--plata));transition:width .1s linear}
+  #menu{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;
+        justify-content:center;gap:28px;padding:15px 20px;background:rgba(0,0,0,.75);
+        backdrop-filter:blur(16px);border-bottom:1px solid transparent;
+        transform:translateY(-100%);transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s}
+  #menu.on{transform:none;border-bottom-color:var(--filete)}
+  #menu a{color:var(--ceniza);text-decoration:none;font-size:10.5px;letter-spacing:.24em;
+          text-transform:uppercase;transition:color .3s;white-space:nowrap}
+  #menu a:hover,#menu a.activo{color:var(--hueso)}
+  #menu .marca{font-family:var(--serif);font-size:14px;letter-spacing:.12em;color:var(--hueso);text-transform:none}
+
+  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;
+        justify-content:center;text-align:center;padding:90px 24px 120px;overflow:hidden}
+  .hero-bg{position:absolute;inset:-12% 0;background-size:cover;background-position:center 30%;
+           filter:grayscale(1) contrast(1.3) brightness(.5);will-change:transform}
+  .hero-bg::after{content:"";position:absolute;inset:0;
+    background:radial-gradient(120% 90% at 50% 45%,rgba(0,0,0,.42) 0%,rgba(0,0,0,.88) 55%,#000 100%)}
+  .ventana{position:absolute;top:48%;left:50%;transform:translate(-50%,-50%);
+           width:min(92vw,620px);z-index:1;opacity:.4;pointer-events:none}
+  .ventana path{fill:none;stroke:var(--plata);stroke-width:.8}
+  .ventana .int{stroke-width:.5;opacity:.6}
+  .hero-in{position:relative;z-index:2}
+  .hero h1{font-family:var(--serif);font-weight:400;margin:16px 0 0;color:#fff;
+           font-size:clamp(50px,13vw,140px);line-height:.9}
+  .hero h1 em{display:block;font-style:italic;color:var(--plata);font-size:.52em;letter-spacing:.06em;margin-top:14px}
+  .beca{margin:30px auto 0;display:inline-block;padding:9px 22px;
+        border-top:1px solid var(--filete);border-bottom:1px solid var(--filete);
+        font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--ceniza)}
+  .ruta-txt{margin:20px 0 0;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ceniza)}
+  .ruta-txt s{color:#8f8f8f;text-decoration-color:var(--morado);text-decoration-thickness:1.5px}
+  .ruta-txt .pronto{margin-left:9px;color:var(--morado);font-style:italic;text-transform:none;letter-spacing:.04em}
+  .baja{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:2;font-size:9.5px;
+        letter-spacing:.3em;text-transform:uppercase;color:#a3a3a3;display:flex;flex-direction:column;
+        align-items:center;gap:11px}
+  .baja i{width:1px;height:42px;background:linear-gradient(var(--plata),transparent);animation:cae 2.6s ease-in-out infinite}
+  @keyframes cae{0%,100%{opacity:.2;transform:scaleY(.45)}50%{opacity:.9;transform:scaleY(1)}}
+
+  .cifras{padding:110px 0 90px;text-align:center}
+  .fila{display:flex;justify-content:center;gap:clamp(26px,7vw,86px);flex-wrap:wrap;margin-top:42px}
+  .dato b{display:block;font-family:var(--serif);font-weight:400;color:#fff;
+          font-size:clamp(36px,8vw,62px);line-height:1;font-variant-numeric:tabular-nums}
+  .dato span{display:block;margin-top:12px;font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--ceniza)}
+  .dato small{display:block;margin-top:6px;font-size:11.5px;color:#aaa;text-transform:none}
+
+  .mapa-sec{padding:90px 0;text-align:center}
+  .mapa-sec h2{font-family:var(--serif);font-weight:400;font-size:clamp(25px,4.4vw,38px);color:#fff;margin:15px 0 12px}
+  .mapa-sec .pie{color:var(--ceniza);font-size:14.5px;line-height:1.7;max-width:46ch;margin:0 auto 34px}
+  .mapa-caja{max-width:540px;margin:0 auto;border:1px solid rgba(255,255,255,.68);background:#000;padding:13px}
+  svg.mapa{width:100%;height:auto}
+  .tierra{fill:#2e2e3c;stroke:rgba(255,255,255,.72);stroke-width:.65}
+  .ruta{fill:none;stroke:var(--morado);stroke-width:2;stroke-linecap:round;stroke-dasharray:5 6;
+        filter:drop-shadow(0 0 7px rgba(169,112,255,.85))}
+  .pin{cursor:pointer}
+  .pin .halo{fill:var(--morado);opacity:.28;animation:pulso 3.4s ease-out infinite}
+  .pin .halo.b{animation-delay:1.7s}
+  .pin circle.centro{fill:#fff;stroke:#000;stroke-width:1.3;transition:fill .3s}
+  .pin.acento circle.centro{fill:var(--morado)}
+  .pin.apagado circle.centro{fill:#9d9d9d}
+  @keyframes pulso{0%{r:5;opacity:.5}100%{r:23;opacity:0}}
+  .pin text{paint-order:stroke;stroke:#000;stroke-width:3px;stroke-linejoin:round}
+  .pin text.nom{fill:#fff;font-family:var(--serif);font-size:14px}
+  .pin text.cant{fill:#c2c2c2;font-size:8px;letter-spacing:.2em;text-transform:uppercase}
+  .pin text.milan{fill:#9d9d9d}
+  .pin text.pronto{fill:var(--morado);letter-spacing:.14em}
+  .pin.futuro{cursor:default}
+  .leyenda{margin-top:18px;font-size:12px;color:#aaa}
+
+  .cap{padding:120px 0 10px;text-align:center}
+  .romano{font-family:var(--serif);font-size:13px;letter-spacing:.5em;color:var(--ceniza)}
+  .cap h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,7vw,62px);color:#fff;margin:16px 0 0}
+  .cap .sub{color:var(--ceniza);font-size:10px;letter-spacing:.28em;text-transform:uppercase;margin-top:14px}
+  .entrada{max-width:34ch;margin:32px auto 0;font-family:var(--serif);font-style:italic;
+           font-size:clamp(18px,2.7vw,23px);line-height:1.6;color:#f4f4f4}
+  .entrada .quien{display:block;margin-top:16px;font-family:var(--sans);font-style:normal;
+                  font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:#aaa}
+
+  .bloque{padding:70px 0 0}
+  .bloque-tit{text-align:center;margin-bottom:30px}
+  .bloque-tit h3{font-family:var(--serif);font-weight:400;font-size:clamp(22px,3.4vw,32px);color:#fff;margin:10px 0 0}
+  .bloque-tit .f{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--morado)}
+  .bloque-tit p{max-width:52ch;margin:14px auto 0;font-size:14.5px;line-height:1.7;color:#c4c4c4}
+
+  .rev{opacity:0;transform:translateY(28px);
+       transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+  .rev.on{opacity:1;transform:none}
+
+  .tira{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+  .tira figure{margin:0;position:relative;cursor:zoom-in;overflow:hidden;background:#0a0a0a;
+               border:1px solid rgba(255,255,255,.12)}
+  .tira img{width:100%;aspect-ratio:4/3;object-fit:cover;
+            filter:grayscale(1) contrast(1.2) brightness(.82);transition:filter .7s ease,transform 1.2s ease}
+  @media (hover:hover){ .tira figure:hover img{filter:grayscale(0) contrast(1.05) brightness(1);transform:scale(1.04)} }
+  @media (hover:none){ .tira figure.enfoque img{filter:grayscale(0) contrast(1.05) brightness(1)} }
+  .tira figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 10px;
+                   background:linear-gradient(transparent,rgba(0,0,0,.9));
+                   font-size:11.5px;color:#fff;line-height:1.35}
+  .tira figcaption em{display:block;font-style:normal;font-size:9.5px;letter-spacing:.16em;
+                      text-transform:uppercase;color:#a9a9a9;margin-top:3px}
+
+  .escena{margin:86px 0;position:relative}
+  .lienzo{position:relative;overflow:hidden;cursor:zoom-in;background:#080808}
+  .lienzo img{width:100%;height:100%;object-fit:cover;
+              filter:grayscale(1) contrast(1.22) brightness(.96);
+              transform:scale(1.06);transition:transform 1.6s cubic-bezier(.2,.7,.2,1),filter .9s ease}
+  .escena.on .lienzo img{transform:scale(1)}
+  @media (hover:hover){ .lienzo:hover img{filter:grayscale(0) contrast(1.06)} }
+  @media (hover:none){ .lienzo.enfoque img{filter:grayscale(0) contrast(1.06)} }
+  .lienzo::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(to top,rgba(0,0,0,.5),transparent 45%)}
+  .lupa{position:absolute;right:14px;bottom:14px;z-index:3;font-size:9.5px;letter-spacing:.2em;
+        text-transform:uppercase;color:#fff;pointer-events:none;background:rgba(0,0,0,.6);
+        border:1px solid rgba(255,255,255,.6);padding:5px 10px}
+  .ancha .lienzo{height:clamp(330px,72vh,740px)}
+  .ancha figcaption{max-width:640px;margin:24px auto 0;text-align:center;padding:0 20px}
+  .arco .lienzo{clip-path:url(#ojiva);aspect-ratio:3/4;max-width:450px;margin:0 auto}
+  .arco figcaption{max-width:470px;margin:24px auto 0;text-align:center}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,5vw,56px);align-items:center}
+  .duo .lienzo{aspect-ratio:4/3}
+  .duo.vert .lienzo{aspect-ratio:3/4}
+  .duo.der .col-txt{order:-1}
+  .duo figcaption{text-align:left;max-width:38ch}
+
+  .meta{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--ceniza)}
+  figcaption h3{font-family:var(--serif);font-weight:400;font-size:clamp(22px,3.1vw,30px);color:#fff;margin:11px 0 0}
+  .desc{font-size:15.5px;line-height:1.72;color:#dcdcdc;margin:13px 0 0}
+  .dato-lugar{font-size:14.5px;line-height:1.68;color:#a8a8a8;margin:9px 0 0;
+              padding-top:9px;border-top:1px solid rgba(255,255,255,.14)}
+  .cita{margin:15px 0 0;font-family:var(--serif);font-style:italic;font-size:17.5px;line-height:1.55;
+        color:#fff;padding-left:15px;border-left:2px solid var(--morado)}
+  .ancha .cita,.arco .cita{border-left:0;padding:0}
+  .ancha .cita::before,.arco .cita::before{content:"“";color:var(--morado);margin-right:3px;font-size:23px}
+  .ancha .cita::after,.arco .cita::after{content:"”";color:var(--morado);margin-left:2px;font-size:23px}
+  .firma{margin-top:11px;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#aaa}
+
+  .cierre{padding:120px 0 30px;text-align:center}
+  .cierre p{font-family:var(--serif);font-style:italic;font-size:clamp(24px,5vw,44px);line-height:1.34;
+            color:#fff;max-width:18ch;margin:30px auto 0}
+  .cierre .quien{margin-top:24px;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--ceniza)}
+  .despedida{position:relative;padding:120px 24px 150px;text-align:center;overflow:hidden;
+             border-top:1px solid rgba(255,255,255,.16)}
+  .despedida .arco-fondo{position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);
+                         width:min(88vw,470px);opacity:.3;pointer-events:none}
+  .despedida .arco-fondo path{fill:none;stroke:var(--morado);stroke-width:.9}
+  .despedida .in{position:relative;z-index:2}
+  .despedida .te{font-family:var(--serif);font-size:clamp(54px,13vw,132px);color:#fff;margin:0;
+                 line-height:.95;text-shadow:0 0 60px rgba(169,112,255,.45)}
+  .despedida .raya{width:64px;height:1px;margin:36px auto 0;background:var(--morado)}
+  .despedida .sinc{margin-top:24px;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--ceniza)}
+  .despedida .jp{margin-top:14px;font-family:var(--serif);font-style:italic;
+                 font-size:clamp(42px,9vw,72px);color:var(--plata);line-height:1}
+
+  #lb{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.97);display:flex;align-items:center;
+      justify-content:center;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s;
+      padding:34px 20px;cursor:zoom-out}
+  #lb.on{opacity:1;pointer-events:auto}
+  #lb img{max-width:min(94vw,1200px);max-height:72vh;object-fit:contain}
+  #lb .txt{margin-top:18px;text-align:center;max-width:58ch;color:#d4d4d4;font-size:14px;line-height:1.7}
+  #lb .txt b{display:block;font-family:var(--serif);font-weight:400;font-size:20px;color:#fff;margin-bottom:7px}
+  #lb .cerrar{position:absolute;top:18px;right:22px;color:#ddd;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase}
+
+  @media (max-width:760px){
+    #menu{gap:14px;padding:12px}
+    #menu a{font-size:9.5px;letter-spacing:.12em}
+    .duo{grid-template-columns:1fr;gap:20px}
+    .duo.der .col-txt{order:0}
+    .duo figcaption{text-align:center;margin:0 auto;max-width:100%}
+    .escena{margin:66px 0}
+    .tira{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+  }
+</style>
+</head>
+<body>
+
+<div id="barra"></div>
+<nav id="menu"></nav>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <clipPath id="ojiva" clipPathUnits="objectBoundingBox">
+    <path d="M0,1 L0,0.40 C0.02,0.25 0.26,0.09 0.5,0 C0.74,0.09 0.98,0.25 1,0.40 L1,1 Z"/>
+  </clipPath>
+</defs></svg>
+
+<header class="hero" id="arriba">
+  <div class="hero-bg" id="heroBg"></div>
+  <svg class="ventana" viewBox="0 0 200 300" aria-hidden="true">
+    <path d="M6,296 L6,92 Q17,38 100,6 Q183,38 194,92 L194,296"/>
+    <path class="int" d="M24,296 L24,100 Q34,54 100,26 Q166,54 176,100 L176,296"/>
+    <path class="int" d="M100,26 L100,296"/>
+  </svg>
+  <div class="hero-in" id="heroIn"></div>
+  <div class="baja"><i></i>Baja</div>
+</header>
+
+<section class="cifras wrap">
+  <span class="rombo"></span>
+  <div class="fila" id="cifras"></div>
+</section>
+
+<main id="cuerpo"></main>
+
+<section class="despedida rev">
+  <svg class="arco-fondo" viewBox="0 0 200 300" aria-hidden="true">
+    <path d="M10,294 L10,96 Q22,40 100,8 Q178,40 190,96 L190,294"/>
+  </svg>
+  <div class="in" id="despedida"></div>
+</section>
+
+<div id="lb"><span class="cerrar">Cerrar</span><img alt=""><div class="txt"></div></div>
+
+<script src="mapas.js"></script>
+<script src="datos.js"></script>
+<script>
+const F = n => 'fotos/' + n;
+const esc = s => (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+/* ---------- portada ---------- */
+document.getElementById('heroBg').style.backgroundImage = `url("${F(CABECERA.fotoFondo)}")`;
+document.getElementById('heroIn').innerHTML = `
+  <p class="ojo">${esc(CABECERA.ojo)}</p>
+  <h1>${esc(CABECERA.nombre)}<em>${esc(CABECERA.subtitulo)}</em></h1>
+  <div class="beca">${esc(CABECERA.beca)}</div>
+  <p class="ruta-txt">${esc(CABECERA.ruta)} · <s>${esc(CABECERA.futuro.ciudad)}</s><span class="pronto">${esc(CABECERA.futuro.cuando)}</span></p>`;
+document.title = CABECERA.nombre + ' ' + CABECERA.subtitulo;
+
+/* ---------- cifras ---------- */
+const dia = 86400000;
+const desde = s => Math.floor((Date.now() - new Date(s + 'T00:00:00')) / dia);
+const lapso = (s) => {
+  const f = new Date(s + 'T00:00:00'), h = new Date();
+  let a = h.getFullYear()-f.getFullYear(), m = h.getMonth()-f.getMonth(), d = h.getDate()-f.getDate();
+  if (d < 0) { m--; d += new Date(h.getFullYear(), h.getMonth(), 0).getDate(); }
+  if (m < 0) { a--; m += 12; }
+  const p = [];
+  if (a) p.push(a + (a===1?' año':' años'));
+  if (m) p.push(m + (m===1?' mes':' meses'));
+  if (d) p.push(d + (d===1?' día':' días'));
+  return p.join(' y ') || 'hoy';
+};
+const meses = (s) => { const f = new Date(s+'T00:00:00'), h = new Date();
+  return (h.getFullYear()-f.getFullYear())*12 + (h.getMonth()-f.getMonth()); };
+const cifra = (n, et, sub) => `<div class="dato"><b class="num" data-n="${n}">0</b><span>${et}</span><small>${sub}</small></div>`;
+document.getElementById('cifras').innerHTML =
+    cifra(desde(CABECERA.juntosDesde), 'días juntos', lapso(CABECERA.juntosDesde))
+  + cifra(desde(CABECERA.viajeDesde), 'días fuera', 'desde el 24 de agosto')
+  + cifra(CABECERA.fotosRecibidas, 'fotos que me mandaste', 'solo desde que viajaste')
+  + cifra(meses(CABECERA.juntosDesde), 'mesiversarios', 'todos un día 13');
+
+/* ---------- mapas ---------- */
+const MAPAS = {
+  europa: () => `
+  <section class="mapa-sec wrap" id="mapa">
+    <p class="ojo">El recorrido</p>
+    <h2>Madrid, Copenhagen, Stockholm</h2>
+    <p class="pie">Madrid fue solo la escala. De ahí al norte, y del norte más al norte todavía.</p>
+    <div class="mapa-caja rev">
+      <svg class="mapa" viewBox="0 0 655 620" role="img" aria-label="Recorrido">
+        <g>${MAPA_EUROPA}</g>
+        <path class="ruta anim" d="M190 545 C 232 462, 282 398, 342 329 C 360 308, 377 287, 394 265"/>
+        <g class="pin apagado"><circle class="centro" cx="190" cy="545" r="4"/>
+          <text class="nom" x="190" y="577" text-anchor="middle">Madrid</text>
+          <text class="cant" x="190" y="592" text-anchor="middle">24 de agosto · escala</text></g>
+        <g class="pin" data-ir="#copenhagen"><circle class="halo b" cx="342" cy="329" r="5"/>
+          <circle class="centro" cx="342" cy="329" r="4.5"/>
+          <text class="nom" x="330" y="327" text-anchor="end">Copenhagen</text>
+          <text class="cant" x="330" y="342" text-anchor="end">25 de agosto · su casa</text></g>
+        <g class="pin acento" data-ir="#stockholm"><circle class="halo" cx="394" cy="265" r="5"/>
+          <circle class="centro" cx="394" cy="265" r="4.5"/>
+          <text class="nom" x="410" y="259" text-anchor="start">Stockholm</text>
+          <text class="cant" x="410" y="274" text-anchor="start">11 de septiembre</text></g>
+        <g class="pin futuro">
+          <circle cx="311" cy="480" r="5.5" fill="none" stroke="#a970ff" stroke-width="1.3" stroke-dasharray="2.5 2.5"/>
+          <text class="nom milan" x="311" y="507" text-anchor="middle">${esc(CABECERA.futuro.ciudad)}</text>
+          <line x1="290" y1="502.5" x2="332" y2="502.5" stroke="#a970ff" stroke-width="1.3"/>
+          <text class="cant pronto" x="311" y="521" text-anchor="middle">${esc(CABECERA.futuro.cuando)}</text></g>
+      </svg>
+    </div>
+  </section>`,
+  bus: () => `
+  <section class="mapa-sec wrap" id="bus">
+    <p class="ojo">El tramo largo</p>
+    <h2>Diez horas de bus</h2>
+    <p class="pie">Saliste de Copenhagen a las 17:40 del 10 de septiembre. Llegaste a Stockholm a las 3:31 de la madrugada.</p>
+    <div class="mapa-caja rev">
+      <svg class="mapa" viewBox="0 0 540 520" role="img" aria-label="Ruta en bus">
+        <g>${MAPA_BUS}</g>
+        <path class="ruta anim" d="M176 408 L193 413 C 210 380, 224 310, 237 260 C 262 218, 330 172, 388 145"/>
+        <g class="pin"><circle class="halo" cx="176" cy="408" r="5"/>
+          <circle class="centro" cx="176" cy="408" r="4.5"/>
+          <text class="nom" x="164" y="406" text-anchor="end">Copenhagen</text>
+          <text class="cant" x="164" y="421" text-anchor="end">10 sep · 17:40</text></g>
+        <g class="pin"><circle class="centro" cx="237" cy="260" r="2.6"/>
+          <text class="cant" x="249" y="263" text-anchor="start">Jönköping</text></g>
+        <g class="pin acento"><circle class="halo b" cx="388" cy="145" r="5"/>
+          <circle class="centro" cx="388" cy="145" r="4.5"/>
+          <text class="nom" x="376" y="132" text-anchor="end">Stockholm</text>
+          <text class="cant" x="376" y="147" text-anchor="end">11 sep · 03:31</text></g>
+      </svg>
+    </div>
+    <p class="leyenda">El punto morado es la ubicación exacta que me compartiste al llegar: 59.3301, 18.0596</p>
+  </section>`
+};
+
+/* ---------- render del cuerpo ---------- */
+const FORMAS = { ancha:'ancha', duo:'duo', duoDer:'duo der', duoVert:'duo vert', arco:'arco' };
+
+const pintaEscena = (b) => {
+  const clase = FORMAS[b.forma] || 'ancha';
+  const cuerpo = `
+    <div class="meta">${esc(b.meta)}</div>
+    <h3>${esc(b.titulo)}</h3>
+    ${b.desc ? `<p class="desc">${esc(b.desc)}</p>` : ''}
+    ${b.dato ? `<p class="dato-lugar">${esc(b.dato)}</p>` : ''}
+    ${b.cita ? `<p class="cita">${esc(b.cita)}</p>` : ''}
+    ${b.firma ? `<div class="firma">${esc(b.firma)}</div>` : ''}`;
+  const lienzo = `<div class="lienzo"><img src="${F(b.foto)}" alt="${esc(b.titulo)}" loading="lazy">
+                  <span class="lupa">Ampliar</span></div>`;
+  const html = clase.startsWith('duo')
+    ? `${lienzo}<div class="col-txt"><figcaption>${cuerpo}</figcaption></div>`
+    : `${lienzo}<figcaption>${cuerpo}</figcaption>`;
+  return `<figure class="escena ${clase} rev" data-info="${esc(b.info||b.dato||'')}">${html}</figure>`;
+};
+
+const pintaGrupo = (b) => `
+  <section class="bloque rev"${b.id ? ` id="${b.id}"` : ''}>
+    <div class="bloque-tit">
+      <div class="f">${esc(b.fecha)}</div>
+      <h3>${esc(b.titulo)}</h3>
+      ${b.intro ? `<p>${esc(b.intro)}</p>` : ''}
+    </div>
+    <div class="tira">
+      ${b.fotos.map(f => `
+        <figure data-info="${esc(f.info||'')}">
+          <img src="${F(f.foto)}" alt="${esc(f.titulo)}" loading="lazy">
+          <figcaption>${esc(f.titulo)}<em>${esc(f.pie||'')}</em></figcaption>
+        </figure>`).join('')}
+    </div>
+  </section>`;
+
+const pintaCapitulo = (b) => `
+  <section class="cap wrap" id="${b.id}">
+    <div class="romano">${esc(b.romano)}</div>
+    <h2>${esc(b.titulo)}</h2>
+    <div class="sub">${esc(b.sub)}</div>
+    ${b.cita ? `<p class="entrada rev">${esc(b.cita)}<span class="quien">${esc(b.quien||'')}</span></p>` : ''}
+  </section>`;
+
+const pintaCierre = (b) => `
+  <section class="cierre wrap">
+    <span class="rombo"></span>
+    <p class="rev">${esc(b.frase)}</p>
+    <div class="quien">${esc(b.quien)}</div>
+  </section>`;
+
+let html = '', dentro = false;
+const abrirWrap = () => { if (!dentro) { html += '<div class="wrap">'; dentro = true; } };
+const cerrarWrap = () => { if (dentro) { html += '</div>'; dentro = false; } };
+
+CONTENIDO.forEach(b => {
+  if (b.t === 'escena' || b.t === 'grupo') {
+    abrirWrap();
+    html += (b.t === 'escena') ? pintaEscena(b) : pintaGrupo(b);
+  } else {
+    cerrarWrap();
+    if (b.t === 'mapa')     html += MAPAS[b.cual]();
+    if (b.t === 'capitulo') html += pintaCapitulo(b);
+    if (b.t === 'cierre')   html += pintaCierre(b);
+  }
+});
+cerrarWrap();
+document.getElementById('cuerpo').innerHTML = html;
+
+document.getElementById('despedida').innerHTML = `
+  <p class="te">${esc(CABECERA.despedida.texto)}</p>
+  <div class="raya"></div>
+  <div class="sinc">Sinceramente</div>
+  <div class="jp">${esc(CABECERA.despedida.firma)}</div>`;
+
+/* ---------- menú ---------- */
+const secciones = [];
+if (document.getElementById('mapa'))  secciones.push(['mapa','El mapa']);
+CONTENIDO.filter(b => b.t === 'capitulo').forEach((b,i) => {
+  if (i === 1 && document.getElementById('bus')) secciones.push(['bus','El bus']);
+  secciones.push([b.id, b.titulo]);
+});
+document.getElementById('menu').innerHTML =
+  `<a class="marca" href="#arriba">${esc(CABECERA.nombre)}</a>` +
+  secciones.map(([id,t]) => `<a href="#${id}" data-s="${id}">${esc(t)}</a>`).join('');
+
+/* ---------- animaciones ---------- */
+const contar = (el) => {
+  const fin = +el.dataset.n, t0 = performance.now(), dur = 1500;
+  const paso = (t) => {
+    const p = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-p,3);
+    el.textContent = Math.round(fin*e).toLocaleString('es-BO');
+    if (p<1) requestAnimationFrame(paso);
+  };
+  requestAnimationFrame(paso);
+};
+const io = new IntersectionObserver((es) => {
+  es.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('on');
+    if (e.target.classList.contains('num')) contar(e.target);
+    io.unobserve(e.target);
+  });
+}, { threshold: .12 });
+document.querySelectorAll('.rev,.num').forEach(el => io.observe(el));
+
+document.querySelectorAll('.ruta.anim').forEach(r => {
+  const L = r.getTotalLength();
+  r.style.strokeDasharray = L; r.style.strokeDashoffset = L;
+  new IntersectionObserver((es, ob) => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    r.style.transition = 'stroke-dashoffset 2.4s cubic-bezier(.4,0,.2,1)';
+    r.style.strokeDashoffset = 0;
+    setTimeout(() => { r.style.strokeDasharray = '5 6'; }, 2500);
+    ob.disconnect();
+  }), { threshold: .3 }).observe(r.closest('svg'));
+});
+
+const barra = document.getElementById('barra'), menu = document.getElementById('menu'),
+      heroBg = document.getElementById('heroBg'), enlaces = [...menu.querySelectorAll('a[data-s]')];
+let tic = false;
+const pintar = () => {
+  const y = scrollY, alto = document.body.scrollHeight - innerHeight;
+  barra.style.width = (y/Math.max(alto,1)*100) + '%';
+  menu.classList.toggle('on', y > innerHeight*.75);
+  if (y < innerHeight) heroBg.style.transform = 'translateY(' + (y*.35) + 'px)';
+  let act = null;
+  enlaces.forEach(a => {
+    const s = document.getElementById(a.dataset.s);
+    if (s && s.getBoundingClientRect().top <= innerHeight*.45) act = a;
+  });
+  enlaces.forEach(a => a.classList.toggle('activo', a === act));
+  tic = false;
+};
+addEventListener('scroll', () => { if (!tic) { tic = true; requestAnimationFrame(pintar); } }, { passive:true });
+pintar();
+
+document.querySelectorAll('.pin[data-ir]').forEach(p =>
+  p.addEventListener('click', () => {
+    const d = document.querySelector(p.dataset.ir);
+    if (d) d.scrollIntoView({behavior:'smooth',block:'start'});
+  }));
+
+/* ---------- lightbox ---------- */
+const lb = document.getElementById('lb'), lbImg = lb.querySelector('img'), lbTxt = lb.querySelector('.txt');
+const abrir = (el) => {
+  const img = el.querySelector('img');
+  lbImg.src = img.src;
+  const h3 = el.querySelector('h3');
+  const cap = el.querySelector('figcaption');
+  let titulo = h3 ? h3.textContent : (cap ? cap.childNodes[0].textContent.trim() : '');
+  lbTxt.innerHTML = '<b>' + titulo + '</b>' + (el.dataset.info || '');
+  lb.classList.add('on'); document.body.style.overflow = 'hidden';
+};
+document.querySelectorAll('.escena').forEach(f => f.querySelector('.lienzo').addEventListener('click', () => abrir(f)));
+document.querySelectorAll('.tira figure').forEach(f => f.addEventListener('click', () => abrir(f)));
+const cerrar = () => { lb.classList.remove('on'); document.body.style.overflow = ''; };
+lb.addEventListener('click', cerrar);
+addEventListener('keydown', e => { if (e.key === 'Escape') cerrar(); });
+
+if (matchMedia('(hover:none)').matches) {
+  const foco = new IntersectionObserver((es) => {
+    es.forEach(e => e.target.classList.toggle('enfoque', e.isIntersecting));
+  }, { rootMargin: '-32% 0px -32% 0px', threshold: 0 });
+  document.querySelectorAll('.lienzo,.tira figure').forEach(l => foco.observe(l));
+}
+</script>
+</body>
+</html>
