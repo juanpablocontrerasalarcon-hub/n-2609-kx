@@ -22,11 +22,13 @@
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
   .ojo{font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--ceniza);margin:0}
   .rombo{display:block;width:5px;height:5px;margin:0 auto;background:var(--plata);transform:rotate(45deg)}
+  .bandera{display:inline-block;width:17px;height:12px;vertical-align:middle;
+           margin-right:9px;opacity:.75;border:1px solid rgba(255,255,255,.25)}
 
   #barra{position:fixed;top:0;left:0;height:2px;width:0;z-index:60;
          background:linear-gradient(90deg,var(--morado),var(--plata));transition:width .1s linear}
   #menu{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;
-        justify-content:center;gap:28px;padding:15px 20px;background:rgba(0,0,0,.75);
+        justify-content:center;gap:30px;padding:15px 20px;background:rgba(0,0,0,.78);
         backdrop-filter:blur(16px);border-bottom:1px solid transparent;
         transform:translateY(-100%);transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s}
   #menu.on{transform:none;border-bottom-color:var(--filete)}
@@ -35,6 +37,7 @@
   #menu a:hover,#menu a.activo{color:var(--hueso)}
   #menu .marca{font-family:var(--serif);font-size:14px;letter-spacing:.12em;color:var(--hueso);text-transform:none}
 
+  /* ---------- portada ---------- */
   .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;
         justify-content:center;text-align:center;padding:90px 24px 120px;overflow:hidden}
   .hero-bg{position:absolute;inset:-12% 0;background-size:cover;background-position:center 30%;
@@ -51,7 +54,7 @@
   .hero h1 em{display:block;font-style:italic;color:var(--plata);font-size:.52em;letter-spacing:.06em;margin-top:14px}
   .beca{margin:30px auto 0;display:inline-block;padding:9px 22px;
         border-top:1px solid var(--filete);border-bottom:1px solid var(--filete);
-        font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--ceniza)}
+        font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--ceniza)}
   .ruta-txt{margin:20px 0 0;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ceniza)}
   .ruta-txt s{color:#8f8f8f;text-decoration-color:var(--morado);text-decoration-thickness:1.5px}
   .ruta-txt .pronto{margin-left:9px;color:var(--morado);font-style:italic;text-transform:none;letter-spacing:.04em}
@@ -61,6 +64,7 @@
   .baja i{width:1px;height:42px;background:linear-gradient(var(--plata),transparent);animation:cae 2.6s ease-in-out infinite}
   @keyframes cae{0%,100%{opacity:.2;transform:scaleY(.45)}50%{opacity:.9;transform:scaleY(1)}}
 
+  /* ---------- cifras ---------- */
   .cifras{padding:110px 0 90px;text-align:center}
   .fila{display:flex;justify-content:center;gap:clamp(26px,7vw,86px);flex-wrap:wrap;margin-top:42px}
   .dato b{display:block;font-family:var(--serif);font-weight:400;color:#fff;
@@ -68,6 +72,7 @@
   .dato span{display:block;margin-top:12px;font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--ceniza)}
   .dato small{display:block;margin-top:6px;font-size:11.5px;color:#aaa;text-transform:none}
 
+  /* ---------- mapas ---------- */
   .mapa-sec{padding:90px 0;text-align:center}
   .mapa-sec h2{font-family:var(--serif);font-weight:400;font-size:clamp(25px,4.4vw,38px);color:#fff;margin:15px 0 12px}
   .mapa-sec .pie{color:var(--ceniza);font-size:14.5px;line-height:1.7;max-width:46ch;margin:0 auto 34px}
@@ -91,6 +96,7 @@
   .pin.futuro{cursor:default}
   .leyenda{margin-top:18px;font-size:12px;color:#aaa}
 
+  /* ---------- capítulos ---------- */
   .cap{padding:120px 0 10px;text-align:center}
   .romano{font-family:var(--serif);font-size:13px;letter-spacing:.5em;color:var(--ceniza)}
   .cap h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,7vw,62px);color:#fff;margin:16px 0 0}
@@ -100,29 +106,48 @@
   .entrada .quien{display:block;margin-top:16px;font-family:var(--sans);font-style:normal;
                   font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:#aaa}
 
-  .bloque{padding:70px 0 0}
-  .bloque-tit{text-align:center;margin-bottom:30px}
-  .bloque-tit h3{font-family:var(--serif);font-weight:400;font-size:clamp(22px,3.4vw,32px);color:#fff;margin:10px 0 0}
-  .bloque-tit .f{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--morado)}
-  .bloque-tit p{max-width:52ch;margin:14px auto 0;font-size:14.5px;line-height:1.7;color:#c4c4c4}
-
   .rev{opacity:0;transform:translateY(28px);
        transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
   .rev.on{opacity:1;transform:none}
 
-  .tira{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
-  .tira figure{margin:0;position:relative;cursor:zoom-in;overflow:hidden;background:#0a0a0a;
-               border:1px solid rgba(255,255,255,.12)}
-  .tira img{width:100%;aspect-ratio:4/3;object-fit:cover;
-            filter:grayscale(1) contrast(1.2) brightness(.82);transition:filter .7s ease,transform 1.2s ease}
-  @media (hover:hover){ .tira figure:hover img{filter:grayscale(0) contrast(1.05) brightness(1);transform:scale(1.04)} }
-  @media (hover:none){ .tira figure.enfoque img{filter:grayscale(0) contrast(1.05) brightness(1)} }
-  .tira figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 10px;
-                   background:linear-gradient(transparent,rgba(0,0,0,.9));
-                   font-size:11.5px;color:#fff;line-height:1.35}
-  .tira figcaption em{display:block;font-style:normal;font-size:9.5px;letter-spacing:.16em;
-                      text-transform:uppercase;color:#a9a9a9;margin-top:3px}
+  /* ---------- LUGAR: carrusel horizontal ---------- */
+  .lugar{padding:90px 0 10px;border-top:1px solid rgba(255,255,255,.1);margin-top:60px}
+  .lugar-tit{text-align:center;max-width:640px;margin:0 auto 26px;padding:0 24px}
+  .lugar-tit .f{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--morado)}
+  .lugar-tit h3{font-family:var(--serif);font-weight:400;font-size:clamp(24px,4vw,36px);color:#fff;margin:11px 0 0}
+  .lugar-tit p{margin:14px 0 0;font-size:14.5px;line-height:1.7;color:#c4c4c4}
 
+  .carrusel{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;
+            scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth}
+  .carrusel::-webkit-scrollbar{display:none}
+  .slide{flex:0 0 100%;scroll-snap-align:center;padding:0 24px}
+  .slide .marco{background:#070707;border:1px solid rgba(255,255,255,.1);cursor:zoom-in;
+                display:flex;align-items:center;justify-content:center;height:clamp(300px,58vh,600px);
+                overflow:hidden}
+  .slide img{max-width:100%;max-height:100%;object-fit:contain;
+             filter:grayscale(1) contrast(1.18) brightness(.9);transition:filter .8s ease}
+  @media (hover:hover){ .slide .marco:hover img{filter:grayscale(0) contrast(1.04) brightness(1)} }
+  @media (hover:none){ .slide.enfoque img{filter:grayscale(0) contrast(1.04) brightness(1)} }
+  .slide figcaption{max-width:600px;margin:18px auto 0;text-align:center}
+  .slide .st{font-family:var(--serif);font-size:clamp(19px,2.6vw,25px);color:#fff;margin:0}
+  .slide .sa{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--morado);margin-top:8px}
+  .slide .sx{font-size:14.5px;line-height:1.72;color:#c9c9c9;margin:13px 0 0}
+
+  .controles{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:26px}
+  .controles button{background:none;border:1px solid rgba(255,255,255,.34);color:var(--hueso);
+                    width:44px;height:44px;cursor:pointer;font-size:17px;line-height:1;
+                    transition:border-color .3s,background .3s;display:flex;align-items:center;justify-content:center}
+  .controles button:hover{border-color:#fff;background:rgba(255,255,255,.09)}
+  .controles button[disabled]{opacity:.25;cursor:default}
+  .controles .cuenta{font-size:11.5px;letter-spacing:.22em;color:#aaa;min-width:64px;text-align:center;
+                     font-variant-numeric:tabular-nums}
+  .fin-grupo{text-align:center;margin-top:22px}
+  .fin-grupo button{background:none;border:0;color:#8f8f8f;font-family:var(--sans);font-size:10px;
+                    letter-spacing:.26em;text-transform:uppercase;cursor:pointer;padding:10px 4px;
+                    border-bottom:1px solid rgba(255,255,255,.2);transition:color .3s,border-color .3s}
+  .fin-grupo button:hover{color:#fff;border-bottom-color:#fff}
+
+  /* ---------- escenas (solo ella) ---------- */
   .escena{margin:86px 0;position:relative}
   .lienzo{position:relative;overflow:hidden;cursor:zoom-in;background:#080808}
   .lienzo img{width:100%;height:100%;object-fit:cover;
@@ -158,6 +183,7 @@
   .ancha .cita::after,.arco .cita::after{content:"”";color:var(--morado);margin-left:2px;font-size:23px}
   .firma{margin-top:11px;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#aaa}
 
+  /* ---------- cierre ---------- */
   .cierre{padding:120px 0 30px;text-align:center}
   .cierre p{font-family:var(--serif);font-style:italic;font-size:clamp(24px,5vw,44px);line-height:1.34;
             color:#fff;max-width:18ch;margin:30px auto 0}
@@ -168,30 +194,32 @@
                          width:min(88vw,470px);opacity:.3;pointer-events:none}
   .despedida .arco-fondo path{fill:none;stroke:var(--morado);stroke-width:.9}
   .despedida .in{position:relative;z-index:2}
-  .despedida .te{font-family:var(--serif);font-size:clamp(54px,13vw,132px);color:#fff;margin:0;
+  .despedida .te{font-family:var(--serif);font-size:clamp(50px,12vw,120px);color:#fff;margin:0;
                  line-height:.95;text-shadow:0 0 60px rgba(169,112,255,.45)}
-  .despedida .raya{width:64px;height:1px;margin:36px auto 0;background:var(--morado)}
-  .despedida .sinc{margin-top:24px;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--ceniza)}
+  .despedida .raya{width:64px;height:1px;margin:34px auto 0;background:var(--morado)}
+  .despedida .sinc{margin-top:22px;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--ceniza)}
   .despedida .jp{margin-top:14px;font-family:var(--serif);font-style:italic;
-                 font-size:clamp(42px,9vw,72px);color:var(--plata);line-height:1}
+                 font-size:clamp(34px,7vw,64px);color:var(--plata);line-height:1.1}
 
+  /* ---------- lightbox ---------- */
   #lb{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.97);display:flex;align-items:center;
-      justify-content:center;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s;
+      justify-content:center;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .35s;
       padding:34px 20px;cursor:zoom-out}
   #lb.on{opacity:1;pointer-events:auto}
-  #lb img{max-width:min(94vw,1200px);max-height:72vh;object-fit:contain}
+  #lb img{max-width:min(94vw,1300px);max-height:74vh;object-fit:contain}
   #lb .txt{margin-top:18px;text-align:center;max-width:58ch;color:#d4d4d4;font-size:14px;line-height:1.7}
   #lb .txt b{display:block;font-family:var(--serif);font-weight:400;font-size:20px;color:#fff;margin-bottom:7px}
   #lb .cerrar{position:absolute;top:18px;right:22px;color:#ddd;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase}
 
   @media (max-width:760px){
-    #menu{gap:14px;padding:12px}
+    #menu{gap:15px;padding:12px}
     #menu a{font-size:9.5px;letter-spacing:.12em}
     .duo{grid-template-columns:1fr;gap:20px}
     .duo.der .col-txt{order:0}
     .duo figcaption{text-align:center;margin:0 auto;max-width:100%}
     .escena{margin:66px 0}
-    .tira{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+    .slide{padding:0 16px}
+    .slide .marco{height:clamp(260px,46vh,420px)}
   }
 </style>
 </head>
@@ -237,7 +265,12 @@
 <script src="datos.js"></script>
 <script>
 const F = n => 'fotos/' + n;
-const esc = s => (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const esc = s => (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+
+const BANDERAS = {
+  dk:`<svg class="bandera" viewBox="0 0 37 28" aria-label="Dinamarca"><rect width="37" height="28" fill="#c8102e"/><rect x="12" width="4" height="28" fill="#fff"/><rect y="12" width="37" height="4" fill="#fff"/></svg>`,
+  se:`<svg class="bandera" viewBox="0 0 37 28" aria-label="Suecia"><rect width="37" height="28" fill="#005293"/><rect x="12" width="4" height="28" fill="#fecb00"/><rect y="12" width="37" height="4" fill="#fecb00"/></svg>`
+};
 
 /* ---------- portada ---------- */
 document.getElementById('heroBg').style.backgroundImage = `url("${F(CABECERA.fotoFondo)}")`;
@@ -246,7 +279,6 @@ document.getElementById('heroIn').innerHTML = `
   <h1>${esc(CABECERA.nombre)}<em>${esc(CABECERA.subtitulo)}</em></h1>
   <div class="beca">${esc(CABECERA.beca)}</div>
   <p class="ruta-txt">${esc(CABECERA.ruta)} · <s>${esc(CABECERA.futuro.ciudad)}</s><span class="pronto">${esc(CABECERA.futuro.cuando)}</span></p>`;
-document.title = CABECERA.nombre + ' ' + CABECERA.subtitulo;
 
 /* ---------- cifras ---------- */
 const dia = 86400000;
@@ -262,14 +294,14 @@ const lapso = (s) => {
   if (d) p.push(d + (d===1?' día':' días'));
   return p.join(' y ') || 'hoy';
 };
-const meses = (s) => { const f = new Date(s+'T00:00:00'), h = new Date();
+const meses = (s) => { const f=new Date(s+'T00:00:00'), h=new Date();
   return (h.getFullYear()-f.getFullYear())*12 + (h.getMonth()-f.getMonth()); };
-const cifra = (n, et, sub) => `<div class="dato"><b class="num" data-n="${n}">0</b><span>${et}</span><small>${sub}</small></div>`;
+const cifra = (n,et,sub) => `<div class="dato"><b class="num" data-n="${n}">0</b><span>${et}</span><small>${sub}</small></div>`;
 document.getElementById('cifras').innerHTML =
-    cifra(desde(CABECERA.juntosDesde), 'días juntos', lapso(CABECERA.juntosDesde))
-  + cifra(desde(CABECERA.viajeDesde), 'días fuera', 'desde el 24 de agosto')
-  + cifra(CABECERA.fotosRecibidas, 'fotos que me mandaste', 'solo desde que viajaste')
-  + cifra(meses(CABECERA.juntosDesde), 'mesiversarios', 'todos un día 13');
+    cifra(desde(CABECERA.juntosDesde),'días juntos',lapso(CABECERA.juntosDesde))
+  + cifra(desde(CABECERA.viajeDesde),'días fuera','desde el 24 de agosto')
+  + cifra(CABECERA.fotosRecibidas,'fotos que me mandaste','solo desde que viajaste')
+  + cifra(meses(CABECERA.juntosDesde),'mesiversarios','todos un día 13');
 
 /* ---------- mapas ---------- */
 const MAPAS = {
@@ -303,9 +335,9 @@ const MAPAS = {
   </section>`,
   bus: () => `
   <section class="mapa-sec wrap" id="bus">
-    <p class="ojo">El tramo largo</p>
-    <h2>Diez horas de bus</h2>
-    <p class="pie">Saliste de Copenhagen a las 17:40 del 10 de septiembre. Llegaste a Stockholm a las 3:31 de la madrugada.</p>
+    <p class="ojo">Diez horas de bus</p>
+    <h2>De Copenhagen a Stockholm</h2>
+    <p class="pie">Saliste a las 17:40 del 10 de septiembre y llegaste a las 3:31 de la madrugada.</p>
     <div class="mapa-caja rev">
       <svg class="mapa" viewBox="0 0 540 520" role="img" aria-label="Ruta en bus">
         <g>${MAPA_BUS}</g>
@@ -326,7 +358,7 @@ const MAPAS = {
   </section>`
 };
 
-/* ---------- render del cuerpo ---------- */
+/* ---------- render ---------- */
 const FORMAS = { ancha:'ancha', duo:'duo', duoDer:'duo der', duoVert:'duo vert', arco:'arco' };
 
 const pintaEscena = (b) => {
@@ -346,26 +378,36 @@ const pintaEscena = (b) => {
   return `<figure class="escena ${clase} rev" data-info="${esc(b.info||b.dato||'')}">${html}</figure>`;
 };
 
-const pintaGrupo = (b) => `
-  <section class="bloque rev"${b.id ? ` id="${b.id}"` : ''}>
-    <div class="bloque-tit">
-      <div class="f">${esc(b.fecha)}</div>
+const pintaLugar = (b) => `
+  <section class="lugar rev" id="${b.id}">
+    <div class="lugar-tit">
+      <div class="f">${BANDERAS[b.bandera]||''}${esc(b.fecha)}</div>
       <h3>${esc(b.titulo)}</h3>
       ${b.intro ? `<p>${esc(b.intro)}</p>` : ''}
     </div>
-    <div class="tira">
+    <div class="carrusel">
       ${b.fotos.map(f => `
-        <figure data-info="${esc(f.info||'')}">
-          <img src="${F(f.foto)}" alt="${esc(f.titulo)}" loading="lazy">
-          <figcaption>${esc(f.titulo)}<em>${esc(f.pie||'')}</em></figcaption>
+        <figure class="slide" data-info="${esc(f.texto||'')}">
+          <div class="marco"><img src="${F(f.foto)}" alt="${esc(f.titulo)}" loading="lazy"></div>
+          <figcaption>
+            <p class="st">${esc(f.titulo)}</p>
+            ${f.autor ? `<div class="sa">${esc(f.autor)}</div>` : ''}
+            ${f.texto ? `<p class="sx">${esc(f.texto)}</p>` : ''}
+          </figcaption>
         </figure>`).join('')}
     </div>
+    <div class="controles">
+      <button class="ant" aria-label="Anterior">&#8592;</button>
+      <span class="cuenta">1 / ${b.fotos.length}</span>
+      <button class="sig" aria-label="Siguiente">&#8594;</button>
+    </div>
+    <div class="fin-grupo" hidden><button>Volver al recorrido</button></div>
   </section>`;
 
 const pintaCapitulo = (b) => `
   <section class="cap wrap" id="${b.id}">
     <div class="romano">${esc(b.romano)}</div>
-    <h2>${esc(b.titulo)}</h2>
+    <h2>${BANDERAS[b.bandera]||''}${esc(b.titulo)}</h2>
     <div class="sub">${esc(b.sub)}</div>
     ${b.cita ? `<p class="entrada rev">${esc(b.cita)}<span class="quien">${esc(b.quien||'')}</span></p>` : ''}
   </section>`;
@@ -377,16 +419,14 @@ const pintaCierre = (b) => `
     <div class="quien">${esc(b.quien)}</div>
   </section>`;
 
-let html = '', dentro = false;
-const abrirWrap = () => { if (!dentro) { html += '<div class="wrap">'; dentro = true; } };
-const cerrarWrap = () => { if (dentro) { html += '</div>'; dentro = false; } };
-
+let html='', dentro=false;
+const abrirWrap = () => { if(!dentro){ html += '<div class="wrap">'; dentro=true; } };
+const cerrarWrap = () => { if(dentro){ html += '</div>'; dentro=false; } };
 CONTENIDO.forEach(b => {
-  if (b.t === 'escena' || b.t === 'grupo') {
-    abrirWrap();
-    html += (b.t === 'escena') ? pintaEscena(b) : pintaGrupo(b);
-  } else {
+  if (b.t === 'escena') { abrirWrap(); html += pintaEscena(b); }
+  else {
     cerrarWrap();
+    if (b.t === 'lugar')    html += pintaLugar(b);
     if (b.t === 'mapa')     html += MAPAS[b.cual]();
     if (b.t === 'capitulo') html += pintaCapitulo(b);
     if (b.t === 'cierre')   html += pintaCierre(b);
@@ -401,16 +441,42 @@ document.getElementById('despedida').innerHTML = `
   <div class="sinc">Sinceramente</div>
   <div class="jp">${esc(CABECERA.despedida.firma)}</div>`;
 
-/* ---------- menú ---------- */
-const secciones = [];
-if (document.getElementById('mapa'))  secciones.push(['mapa','El mapa']);
-CONTENIDO.filter(b => b.t === 'capitulo').forEach((b,i) => {
-  if (i === 1 && document.getElementById('bus')) secciones.push(['bus','El bus']);
-  secciones.push([b.id, b.titulo]);
-});
+/* ---------- menú: solo capítulos y el mapa ---------- */
+const secciones = [['mapa','El mapa']];
+CONTENIDO.filter(b => b.t==='capitulo').forEach(b => secciones.push([b.id, b.titulo]));
 document.getElementById('menu').innerHTML =
   `<a class="marca" href="#arriba">${esc(CABECERA.nombre)}</a>` +
   secciones.map(([id,t]) => `<a href="#${id}" data-s="${id}">${esc(t)}</a>`).join('');
+
+/* ---------- carruseles ---------- */
+document.querySelectorAll('.lugar').forEach(sec => {
+  const car = sec.querySelector('.carrusel');
+  const ant = sec.querySelector('.ant'), sig = sec.querySelector('.sig');
+  const cuenta = sec.querySelector('.cuenta'), fin = sec.querySelector('.fin-grupo');
+  const n = car.children.length;
+  const idx = () => Math.round(car.scrollLeft / car.clientWidth);
+  const pinta = () => {
+    const i = Math.min(n-1, Math.max(0, idx()));
+    cuenta.textContent = (i+1) + ' / ' + n;
+    ant.disabled = i === 0;
+    sig.disabled = i === n-1;
+    fin.hidden = i !== n-1;
+    [...car.children].forEach((s,j) => s.classList.toggle('enfoque', j === i));
+  };
+  const ir = d => { car.scrollTo({ left: (idx()+d) * car.clientWidth, behavior:'smooth' }); };
+  ant.onclick = () => ir(-1);
+  sig.onclick = () => ir(1);
+  let t; car.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(pinta, 90); }, {passive:true});
+  fin.querySelector('button').onclick = () => {
+    car.scrollTo({left:0, behavior:'smooth'});
+    sec.scrollIntoView({behavior:'smooth', block:'start'});
+  };
+  sec.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') ir(1);
+    if (e.key === 'ArrowLeft')  ir(-1);
+  });
+  pinta();
+});
 
 /* ---------- animaciones ---------- */
 const contar = (el) => {
@@ -447,7 +513,7 @@ document.querySelectorAll('.ruta.anim').forEach(r => {
 const barra = document.getElementById('barra'), menu = document.getElementById('menu'),
       heroBg = document.getElementById('heroBg'), enlaces = [...menu.querySelectorAll('a[data-s]')];
 let tic = false;
-const pintar = () => {
+const pintarTop = () => {
   const y = scrollY, alto = document.body.scrollHeight - innerHeight;
   barra.style.width = (y/Math.max(alto,1)*100) + '%';
   menu.classList.toggle('on', y > innerHeight*.75);
@@ -460,8 +526,8 @@ const pintar = () => {
   enlaces.forEach(a => a.classList.toggle('activo', a === act));
   tic = false;
 };
-addEventListener('scroll', () => { if (!tic) { tic = true; requestAnimationFrame(pintar); } }, { passive:true });
-pintar();
+addEventListener('scroll', () => { if(!tic){ tic=true; requestAnimationFrame(pintarTop); } }, {passive:true});
+pintarTop();
 
 document.querySelectorAll('.pin[data-ir]').forEach(p =>
   p.addEventListener('click', () => {
@@ -469,28 +535,41 @@ document.querySelectorAll('.pin[data-ir]').forEach(p =>
     if (d) d.scrollIntoView({behavior:'smooth',block:'start'});
   }));
 
-/* ---------- lightbox ---------- */
+/* ---------- lightbox con historial ---------- */
 const lb = document.getElementById('lb'), lbImg = lb.querySelector('img'), lbTxt = lb.querySelector('.txt');
-const abrir = (el) => {
+let lbAbierto = false;
+const abrir = (el, titulo) => {
   const img = el.querySelector('img');
   lbImg.src = img.src;
-  const h3 = el.querySelector('h3');
-  const cap = el.querySelector('figcaption');
-  let titulo = h3 ? h3.textContent : (cap ? cap.childNodes[0].textContent.trim() : '');
-  lbTxt.innerHTML = '<b>' + titulo + '</b>' + (el.dataset.info || '');
-  lb.classList.add('on'); document.body.style.overflow = 'hidden';
+  lbTxt.innerHTML = '<b>' + esc(titulo) + '</b>' + esc(el.dataset.info || '');
+  lb.classList.add('on');
+  document.body.style.overflow = 'hidden';
+  if (!lbAbierto) { lbAbierto = true; history.pushState({ lb:true }, ''); }
 };
-document.querySelectorAll('.escena').forEach(f => f.querySelector('.lienzo').addEventListener('click', () => abrir(f)));
-document.querySelectorAll('.tira figure').forEach(f => f.addEventListener('click', () => abrir(f)));
-const cerrar = () => { lb.classList.remove('on'); document.body.style.overflow = ''; };
-lb.addEventListener('click', cerrar);
-addEventListener('keydown', e => { if (e.key === 'Escape') cerrar(); });
+const cerrarLb = (volver) => {
+  if (!lbAbierto) return;
+  lb.classList.remove('on');
+  document.body.style.overflow = '';
+  lbAbierto = false;
+  if (volver && history.state && history.state.lb) history.back();
+};
+addEventListener('popstate', () => { if (lbAbierto) cerrarLb(false); });
+lb.addEventListener('click', () => cerrarLb(true));
+addEventListener('keydown', e => { if (e.key === 'Escape') cerrarLb(true); });
 
+document.querySelectorAll('.escena').forEach(f =>
+  f.querySelector('.lienzo').addEventListener('click',
+    () => abrir(f, f.querySelector('h3').textContent)));
+document.querySelectorAll('.slide').forEach(f =>
+  f.querySelector('.marco').addEventListener('click',
+    () => abrir(f, f.querySelector('.st').textContent)));
+
+/* ---------- en táctil, la foto centrada toma color ---------- */
 if (matchMedia('(hover:none)').matches) {
   const foco = new IntersectionObserver((es) => {
     es.forEach(e => e.target.classList.toggle('enfoque', e.isIntersecting));
   }, { rootMargin: '-32% 0px -32% 0px', threshold: 0 });
-  document.querySelectorAll('.lienzo,.tira figure').forEach(l => foco.observe(l));
+  document.querySelectorAll('.lienzo').forEach(l => foco.observe(l));
 }
 </script>
 </body>
